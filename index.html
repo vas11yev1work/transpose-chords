@@ -8,13 +8,16 @@
 <body>
 
 	<div id="app">
-		<button class="tone" @click="top">Повысить</button>
 		<button class="tone" @click="down">Понизить</button>
+		<span>{{ count }}</span>
+		<button class="tone" @click="top">Повысить</button>
 		<div class="song">
-			<p>{F}Ты далек{C#}о, но как за моим окн{D#}ом</p>
-			<p>Я рад теб{C}е, хоть и вижу мель{C#}ком</p>
-			<p>Но кидаешь в "{A#}игнор", когда я не мол{C}чу</p>
-			<p>Говорю, у-у{F}-у</p>
+			<p>Вступление: {_[F]m} {_[C#]}</p>
+			<br>
+			<p>{[F]m}Ты далек{[C#]}о, но как за моим окн{[D#]}ом</p>
+			<p>Я рад теб{[C]m}е, хоть и вижу мель{[C#]}ком</p>
+			<p>Но кидаешь в "{[A#]m}игнор", когда я не мол{[C]7}чу</p>
+			<p>Говорю, у-у{[F]m}-у</p>
 		</div>
 	</div>
 
@@ -23,38 +26,47 @@
 		new Vue({
 			el: '#app',
 			data: {
-				chordsList: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'H']
+				chordsList: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'H'],
+				count: 0
 			},
 			methods: {
 				top(){
-					let chord = document.querySelectorAll('.b_chords')
-					chord.forEach(el => {
-						if(this.chordsList.indexOf(el.innerHTML) != -1){
-							let indexChord = this.chordsList.indexOf(el.innerHTML);
-							if(el.innerHTML == 'H'){
-								el.innerHTML = this.chordsList[0]
-							}else{
-								el.innerHTML = this.chordsList[indexChord + 1]
+					if(this.count < 6){
+						let chord = document.querySelectorAll('.b_chords_m')
+						chord.forEach(el => {
+							if(this.chordsList.indexOf(el.innerHTML) != -1){
+								let indexChord = this.chordsList.indexOf(el.innerHTML);
+								if(el.innerHTML == 'H'){
+									el.innerHTML = this.chordsList[0]
+								}else{
+									el.innerHTML = this.chordsList[indexChord + 1]
+								}
 							}
-						}
-					})
+						});
+						this.count++;
+					}
 				},
 				down(){
-					let chord = document.querySelectorAll('.b_chords')
-					chord.forEach(el => {
-						if(this.chordsList.indexOf(el.innerHTML) != -1){
-							let indexChord = this.chordsList.indexOf(el.innerHTML);
-							if(el.innerHTML == 'C'){
-								el.innerHTML = this.chordsList[this.chordsList.length - 1]
-							}else{
-								el.innerHTML = this.chordsList[indexChord - 1]
+					if(this.count > -6){
+						let chord = document.querySelectorAll('.b_chords_m')
+						chord.forEach(el => {
+							if(this.chordsList.indexOf(el.innerHTML) != -1){
+								let indexChord = this.chordsList.indexOf(el.innerHTML);
+								if(el.innerHTML == 'C'){
+									el.innerHTML = this.chordsList[this.chordsList.length - 1]
+								}else{
+									el.innerHTML = this.chordsList[indexChord - 1]
+								}
 							}
-						}
-					})
+						});
+						this.count--;
+					}
 				},
 				searchChords(){
 					let song = document.querySelector('.song');
-					song.innerHTML = song.innerHTML.replace(/\{/g, "<span class=\"b_chords\">")
+					song.innerHTML = song.innerHTML.replace(/\{_\[/g, "<span class=\"b_chords_inline\"><span class=\"b_chords_m\">")
+					song.innerHTML = song.innerHTML.replace(/\{\[/g, "<span class=\"b_chords\"><span class=\"b_chords_m\">")
+					song.innerHTML = song.innerHTML.replace(/\]/g, "</span>")
 					song.innerHTML = song.innerHTML.replace(/\}/g, "</span>")
 				}
 			},

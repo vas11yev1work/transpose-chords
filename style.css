@@ -3,6 +3,9 @@
 	position: absolute;
 	transform: translateY(-15px);
 }
+.b_chords_inline{
+	font-weight: 700;
+}
 p.song{
 	line-height: 2;
 }
