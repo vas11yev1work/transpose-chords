@@ -1,0 +1,11 @@
+.b_chords{
+	font-weight: 700;
+	position: absolute;
+	transform: translateY(-15px);
+}
+p.song{
+	line-height: 2;
+}
+button{
+	margin-bottom: 15px;
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>Chords</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	<div id="app">
+		<button class="tone" @click="top">Повысить</button>
+		<button class="tone" @click="down">Понизить</button>
+		<div class="song">
+			<p>{F}Ты далек{C#}о, но как за моим окн{D#}ом</p>
+			<p>Я рад теб{C}е, хоть и вижу мель{C#}ком</p>
+			<p>Но кидаешь в "{A#}игнор", когда я не мол{C}чу</p>
+			<p>Говорю, у-у{F}-у</p>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				chordsList: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'H']
+			},
+			methods: {
+				top(){
+					let chord = document.querySelectorAll('.b_chords')
+					chord.forEach(el => {
+						if(this.chordsList.indexOf(el.innerHTML) != -1){
+							let indexChord = this.chordsList.indexOf(el.innerHTML);
+							if(el.innerHTML == 'H'){
+								el.innerHTML = this.chordsList[0]
+							}else{
+								el.innerHTML = this.chordsList[indexChord + 1]
+							}
+						}
+					})
+				},
+				down(){
+					let chord = document.querySelectorAll('.b_chords')
+					chord.forEach(el => {
+						if(this.chordsList.indexOf(el.innerHTML) != -1){
+							let indexChord = this.chordsList.indexOf(el.innerHTML);
+							if(el.innerHTML == 'C'){
+								el.innerHTML = this.chordsList[this.chordsList.length - 1]
+							}else{
+								el.innerHTML = this.chordsList[indexChord - 1]
+							}
+						}
+					})
+				},
+				searchChords(){
+					let song = document.querySelector('.song');
+					song.innerHTML = song.innerHTML.replace(/\{/g, "<span class=\"b_chords\">")
+					song.innerHTML = song.innerHTML.replace(/\}/g, "</span>")
+				}
+			},
+			mounted(){
+				this.searchChords();
+			}
+		})
+	</script>
+</body>
+</html>
